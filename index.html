@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMaster | Learn & Play</title>
+    <link rel="stylesheet" href="index1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <main id="app-container">
+        <!-- Audio Player -->
+        <audio id="bg-music" loop hidden>
+            <source src="Олександр Коломієць Полька 3.m4a" type="audio/mp4">
+            <source src="Олександр Коломієць Полька 3.m4a" type="audio/x-m4a">
+            Your browser does not support the audio element.
+        </audio>
+
+        <!-- Confetti Canvas -->
+        <canvas id="confetti-canvas"
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
+
+        <!-- View 1: Welcome Screen -->
+        <section id="view-welcome" class="view active">
+            <div class="center-content">
+                <h1 class="main-title">O'rganishga tayyormisiz?</h1>
+                <p class="subtitle">Interaktiv viktorinalarimiz bilan o'z bilimingizni sinab ko'ring.</p>
+
+                <div class="play-btn-wrapper">
+                    <button class="btn-giant" onclick="App.navigate('view-subjects')">
+                        <div class="icon-play">▶</div>
+                        <span>Boshlash</span>
+                    </button>
+                    <button class="btn-secondary"
+                        style="margin-top: 2rem; border-color: rgba(255,255,255,0.5); color: white; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);"
+                        onclick="App.navigate('view-music-select')">
+                        🎵 Musiqa Tanlash
+                    </button>
+                    <!-- Small creator credit as requested previously, keeping it subtle -->
+                    <div class="creator-credit">I MUHAMMAD tomonidan yaratilgan</div>
+                </div>
+
+            </div>
+        </section>
+
+        </section>
+
+        <!-- View: Music Selection (NEW) -->
+        <section id="view-music-select" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="{ App.stopMusic(); App.navigate('view-welcome'); }">← Orqaga</button>
+                <h2 class="view-title" style="color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Musiqani Tanlang 🎵
+                </h2>
+                <div class="options-list" id="music-list">
+                    <button class="btn-option" id="music-btn-default" onclick="App.selectMusic('default')">
+                        <span>Odatiy (Default)</span>
+                        <span class="checkmark">✔</span>
+                    </button>
+                    <button class="btn-option" id="music-btn-sweater_weather"
+                        onclick="App.selectMusic('sweater_weather')">
+                        <span>Sweater Weather - The Neighbourhood</span>
+                        <span class="checkmark" style="display: none;">✔</span>
+                    </button>
+                    <button class="btn-option" id="music-btn-dancin" onclick="App.selectMusic('dancin')">
+                        <span>Dancin - Aaron Smith</span>
+                        <span class="checkmark" style="display: none;">✔</span>
+                    </button>
+                    <button class="btn-option" id="music-btn-none" onclick="App.selectMusic('none')">
+                        <span>Ovozsiz (Mute)</span>
+                        <span class="checkmark" style="display: none;">✔</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 2: Subject Selection -->
+        <section id="view-subjects" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-welcome')">← Orqaga</button>
+                <h2 class="view-title">Fan tanlang</h2>
+                <div class="cards-grid">
+                    <div class="card subject-card" onclick="App.selectSubject('english')">
+                        <div class="card-icon">🇬🇧</div>
+                        <h3>Ingliz Tili</h3>
+                        <p>Grammatika va so'z boyligi</p>
+                    </div>
+                    <div class="card subject-card" onclick="App.selectSubject('math')">
+                        <div class="card-icon">➗</div>
+                        <h3>Matematika</h3>
+                        <p>Misol va masalalar yechish</p>
+                    </div>
+                    <div class="card subject-card" onclick="App.selectSubject('iq')">
+                        <div class="card-icon">🧠</div>
+                        <h3>IQ Test</h3>
+                        <p>Mantiqiy fikrlash</p>
+                    </div>
+                    <div class="card subject-card" onclick="App.selectSubject('history')">
+                        <div class="card-icon">📜</div>
+                        <h3>Tarix</h3>
+                        <p>O'tmishga sayohat</p>
+                    </div>
+                    <!-- Uzbek Language Card -->
+                    <div class="card subject-card" onclick="App.selectSubject('uzbek')">
+                        <div class="card-icon">🇺🇿</div>
+                        <h3>O'zbek Tili</h3>
+                        <p>Imlo va Adabiyot</p>
+                    </div>
+                    <div class="card subject-card" onclick="App.selectSubject('informatics')">
+                        <div class="card-icon">💻</div>
+                        <h3>Informatika</h3>
+                        <p>IT va Kompyuterlar</p>
+                    </div>
+                    <!-- Mixed Mode Card -->
+                    <div class="card subject-card" onclick="App.selectSubject('mixed')">
+                        <div class="card-icon">🎲</div>
+                        <h3>Aralash</h3>
+                        <p>Barchasi aralash!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- View 2.5: Game Mode Selection (Restored) -->
+        <section id="view-mode-select" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-subjects')">← Orqaga</button>
+                <h2 class="view-title">O'yin rejimini tanlang</h2>
+                <div class="cards-grid">
+                    <div class="card subject-card" onclick="App.selectMode('solo')">
+                        <div class="card-icon">👤</div>
+                        <h3>Yakkalik</h3>
+                        <p>O'z bilimingizni sinang</p>
+                    </div>
+                    <div class="card subject-card" onclick="App.selectMode('team')">
+                        <div class="card-icon">👥</div>
+                        <h3>Jamoaviy</h3>
+                        <p>Ikki jamoa bellashuvi</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 2.6: Team Naming Setup (NEW) -->
+        <section id="view-team-setup" class="view">
+            <div class="center-content">
+                <button class="back-btn" onclick="App.navigate('view-mode-select')"
+                    style="position: absolute; top: 2rem; left: 2rem;">← Orqaga</button>
+                <h2 class="view-title">Jamoalarni nomlang</h2>
+
+                <div class="input-group" style="margin-bottom: 2rem; width: 100%; max-width: 400px;">
+                    <label style="color:white; display:block; margin-bottom: 0.5rem;">1-Jamoa nomi:</label>
+                    <input type="text" id="team1-input" placeholder="Jamoa 1" class="glass-input">
+                </div>
+
+                <div class="input-group" style="margin-bottom: 2rem; width: 100%; max-width: 400px;">
+                    <label style="color:white; display:block; margin-bottom: 0.5rem;">2-Jamoa nomi:</label>
+                    <input type="text" id="team2-input" placeholder="Jamoa 2" class="glass-input">
+                </div>
+
+                <button class="btn-giant" onclick="App.submitTeamNames()">Davom etish</button>
+            </div>
+        </section>
+
+        <!-- View 3: English Flow - Level Selection -->
+        <section id="view-english-level" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.handleLevelBack()">← Orqaga</button>
+                <h2 class="view-title">Ingliz tili darajangizni tanlang:</h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectLevel('beginner')">Boshlang'ich (Beginner)</button>
+                    <button class="btn-option" onclick="App.selectLevel('intermediate')">O'rta (Intermediate)</button>
+                    <button class="btn-option" onclick="App.selectLevel('advanced')">Yuqori (Advanced)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 3.5: Uzbek Flow - Level Selection (NEW) -->
+        <section id="view-uzbek-level" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.handleLevelBack()">← Orqaga</button>
+                <h2 class="view-title">O'zbek tili darajasini tanlang:</h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectLevel('beginner')">Boshlang'ich</button>
+                    <button class="btn-option" onclick="App.selectLevel('intermediate')">O'rta</button>
+                    <button class="btn-option" onclick="App.selectLevel('advanced')">Yuqori</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 4: English Flow - Skill Selection -->
+        <section id="view-english-skill" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-english-level')">← Orqaga</button>
+                <h2 class="view-title">Nimani mashq qilmoqchisiz?</h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectSkill('grammar')">Grammatika</button>
+                    <button class="btn-option" onclick="App.selectSkill('vocabulary')">Lug'at (Vocabulary)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 4.5: Uzbek Flow - Skill Selection (NEW) -->
+        <section id="view-uzbek-skill" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-english-level')">← Orqaga</button>
+                <h2 class="view-title">Yo'nalishni tanlang:</h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectSkill('grammar')">O'zbek tili (Grammatika)</button>
+                    <button class="btn-option" onclick="App.selectSkill('literature')">Adabiyot</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Math Flow - Level Selection -->
+        <section id="view-math-level" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-subjects')">← Orqaga</button>
+                <h2 class="view-title">Matematika darajasini tanlang:</h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectLevel('beginner')">Oson (Arifmetika)</button>
+                    <button class="btn-option" onclick="App.selectLevel('intermediate')">O'rta (Aralash)</button>
+                    <button class="btn-option" onclick="App.selectLevel('advanced')">Qiyin (Murakkab)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Math Flow - Skill Selection -->
+        <section id="view-math-skill" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-math-level')">← Orqaga</button>
+                <h2 class="view-title">Yo'nalishni tanlang:</h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectSkill('pure_math')">Sof Matematika</button>
+                    <button class="btn-option" onclick="App.selectSkill('problems')">Masalalar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 12: IQ Level Selection -->
+        <section id="view-iq-level" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-subjects')">← Orqaga</button>
+                <h2 class="view-title">IQ Darajasini tanlang:</h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectLevel('beginner')">Oson (Level 1-3)</button>
+                    <button class="btn-option" onclick="App.selectLevel('intermediate')">O'rta (Level 4-6)</button>
+                    <button class="btn-option" onclick="App.selectLevel('advanced')">Qiyin (Level 7-10)</button>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- View: Informatics Level Selection -->
+        <section id="view-cs-level" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-subjects')">← Orqaga</button>
+                <h2 class="view-title">Informatika darajasini tanlang:</h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectLevel('beginner')">Oson (Level 1-3)</button>
+                    <button class="btn-option" onclick="App.selectLevel('intermediate')">O'rta (Level 4-6)</button>
+                    <button class="btn-option" onclick="App.selectLevel('advanced')">Qiyin (Level 7-10)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: History Flow - Level Selection -->
+        <section id="view-history-level" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-subjects')">← Orqaga</button>
+                <h2 class="view-title" style="color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Tarix darajasini
+                    tanlang:</h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectLevel('beginner')">Oson (V-VII asrlar)</button>
+                    <button class="btn-option" onclick="App.selectLevel('intermediate')">O'rta (VIII-XV asrlar)</button>
+                    <button class="btn-option" onclick="App.selectLevel('advanced')">Qiyin (XVI-XXI asrlar)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: History Flow  S- Skillelection -->
+        <section id="view-history-skill" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-history-level')">← Orqaga</button>
+                <h2 class="view-title" style="color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Mavzuni tanlang:
+                </h2>
+                <div class="options-list">
+                    <button class="btn-option" onclick="App.selectSkill('uzbek_history')">O'zbekiston Tarixi</button>
+                    <button class="btn-option" onclick="App.selectSkill('world_history')">Jahon Tarixi</button>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section id="view-question-count" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.handleCountBack()">← Orqaga</button>
+                <h2 class="view-title">Nechta savol bo'lsin?</h2>
+                <div class="options-grid-small">
+                    <button class="btn-option-small" onclick="App.selectCount(5)">5</button>
+                    <button class="btn-option-small" onclick="App.selectCount(10)">10</button>
+                    <button class="btn-option-small" onclick="App.selectCount(25)">25</button>
+                    <button class="btn-option-small" onclick="App.selectCount(50)">50</button>
+                    <button class="btn-option-small" onclick="App.selectCount(75)">75</button>
+                    <button class="btn-option-small" onclick="App.setQuestionCount(100)">100</button>
+                    <button id="btn-diff-5" class="btn-option-small"
+                        style="display: none; background: #ffffff; color: #000;"
+                        onclick="App.setQuestionCount('diff_5')">5
+                        Ball Farqi 🏆</button>
+                </div>
+
+                <h3 style="margin-top: 2rem; color: var(--text-secondary); text-align: center;">Yoki Vaqt Bo'yicha</h3>
+                <div class="options-grid-small">
+                    <button class="btn-option-small" onclick="App.setTimeMode(1)">1 Daqiqa</button>
+                    <button class="btn-option-small" onclick="App.setTimeMode(3)">3 Daqiqa</button>
+                    <button class="btn-option-small" onclick="App.setTimeMode(5)">5 Daqiqa</button>
+                    <button class="btn-option-small" onclick="App.toggleCustomTime()"
+                        style="font-size: 1.5rem;">Boshqa...</button>
+                </div>
+
+                <div id="custom-time-section" class="custom-time-container" style="display: none;">
+                    <input type="number" id="custom-time-input" class="time-input" placeholder="Daq" min="1">
+                    <button class="btn-time-submit" onclick="App.setCustomTime()">
+                        <span>Boshlash</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Betting Selection (NEW for Win by 5) -->
+        <section id="view-bet-selection" class="view">
+            <div class="container">
+                <button class="back-btn" onclick="App.navigate('view-question-count')">← Orqaga</button>
+                <h2 class="view-title" style="color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Qaysi
+                    jamoaga
+                    tikasiz?</h2>
+                <p class="subtitle" style="color: rgba(255,255,255,0.8);">Kim birinchi bo'lib 5 ball oldinga
+                    chiqadi?
+                </p>
+                <div class="cards-grid">
+                    <div class="card subject-card" onclick="App.makeBet('team1')"
+                        style="border-top: 4px solid var(--primary);">
+                        <div class="card-icon">🔵</div>
+                        <h3 style="color: #60a5fa;">Jamoa 1</h3>
+                        <p style="color: rgba(255,255,255,0.7);">Chap tomon</p>
+                    </div>
+                    <div class="card subject-card" onclick="App.makeBet('team2')"
+                        style="border-top: 4px solid var(--secondary);">
+                        <div class="card-icon">🔴</div>
+                        <h3 style="color: #f472b6;">Jamoa 2</h3>
+                        <p style="color: rgba(255,255,255,0.7);">O'ng tomon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 5: Pre-Quiz Confirmation -->
+        <section id="view-pre-quiz" class="view">
+            <div class="center-content">
+                <h2 class="view-title">Tayyormisiz?</h2>
+                <p class="subtitle" id="quiz-summary-text">English - Beginner - Grammar</p>
+                <button class="btn-giant btn-start" onclick="App.startQuiz()">Boshlash</button>
+            </div>
+        </section>
+
+        <!-- View 6: Quiz Interface -->
+        <section id="view-quiz" class="view">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <span id="quiz-timer"
+                        style="display: none; color: var(--error); font-weight: 800; min-width: 80px;">00:00</span>
+                    <span id="quiz-progress">Savol 1/100</span>
+                    <span id="quiz-score">Ball: 0</span>
+                    <button class="btn-stop" onclick="App.stopQuiz()">To'xtatish ⏹</button>
+                </div>
+
+                <div class="question-box">
+                    <h3 id="question-text">Savol matni...</h3>
+                    <div class="answers-grid" id="answers-container">
+                        <!-- Buttons injected via JS -->
+                    </div>
+                    <div id="quiz-feedback" class="hidden">
+                        <div class="feedback-content">
+                            <h4 id="feedback-answer-status">To'g'ri!</h4>
+                            <p><strong>To'g'ri javob:</strong> <span id="feedback-correct-answer">A</span></p>
+                            <p><strong>Izoh:</strong> <span id="feedback-explanation">...</span></p>
+                            <p class="motivation-text" id="feedback-motivation">Barakalla!</p>
+                            <button class="btn-giant btn-next" onclick="App.nextQuestion()">Keyingi savol
+                                ➡</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 9: Split Quiz (Team Mode) -->
+        <section id="view-split-quiz" class="view">
+            <div class="split-container">
+                <!-- Team 1 / Left -->
+                <div class="team-pane team-left">
+                    <div class="team-header">
+                        <h3>Jamoa 1</h3>
+                        <div class="team-stats">
+                            <span id="t1-progress">1/10</span>
+                            <span id="t1-score">Ball: 0</span>
+                        </div>
+                    </div>
+                    <div class="team-content" id="t1-content">
+                        <h4 id="t1-question">Savol...</h4>
+                        <div class="answers-grid-small" id="t1-answers"></div>
+                    </div>
+                    <div class="team-overlay" id="t1-overlay">Kuting...</div>
+                </div>
+
+                <div class="split-divider"></div>
+
+                <!-- Team 2 / Right -->
+                <div class="team-pane team-right">
+                    <div class="team-header">
+                        <h3>Jamoa 2</h3>
+                        <div class="team-stats">
+                            <span id="t2-progress">1/10</span>
+                            <span id="t2-score">Ball: 0</span>
+                        </div>
+                    </div>
+                    <div class="team-content" id="t2-content">
+                        <h4 id="t2-question">Savol...</h4>
+                        <div class="answers-grid-small" id="t2-answers"></div>
+                    </div>
+                    <div class="team-overlay" id="t2-overlay">Kuting...</div>
+                </div>
+            </div>
+
+            <!-- Centered Timer for Team Mode -->
+            <div style="position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 100;">
+                <span id="split-quiz-timer"
+                    style="display: none; color: var(--error); font-weight: 800; font-size: 1.5rem; background: rgba(255,255,255,0.9); padding: 5px 15px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">00:00</span>
+            </div>
+
+            <button class="btn-stop-floating" onclick="App.stopQuiz()">To'xtatish ⏹</button>
+        </section>
+
+        <!-- View 10: Split Results -->
+        <section id="view-split-results" class="view">
+            <div class="center-content">
+                <h2 class="view-title" id="split-winner-text">Jamoa 1 Yutdi!</h2>
+
+                <div class="split-results-grid">
+                    <div class="result-card left">
+                        <h3>Jamoa 1</h3>
+                        <span id="t1-final-score">8</span>
+                    </div>
+                    <div class="vs-text">VS</div>
+                    <div class="result-card right">
+                        <h3>Jamoa 2</h3>
+                        <span id="t2-final-score">5</span>
+                    </div>
+                </div>
+
+                <button class="btn-giant" onclick="App.navigate('view-welcome')">Asosiy oynaga o'tish</button>
+            </div>
+        </section>
+
+        <!-- View 8: Results -->
+        <section id="view-results" class="view">
+            <div class="center-content">
+                <h2 class="view-title">Yakunlandi!</h2>
+                <div class="score-display">
+                    <span id="final-score">85</span>/100
+                </div>
+                <p id="feedback-msg">Ajoyib!</p>
+                <button class="btn-giant" onclick="App.navigate('view-subjects')">Qayta o'ynash</button>
+            </div>
+        </section>
+
+    </main>
+    <script src="questions.js"></script>
+    <script src="index2.js"></script>
+
+</body>
+
+</html>
+
+<!--The questions don't work if there is no bird, the questions don't even come out, all of them
